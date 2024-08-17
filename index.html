@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="https://case.edu.pk/wp-content/uploads/2023/05/case-logo-lg-copy.png">
+    <title>Transport - CASE</title>
+    <link rel="stylesheet" href="style.css"> 
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDoCmnLSTMCBPnbqrG3_71ZztjLItFsnfk"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <script
+        src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js"></script>
+</head>
+
+<body onload="initMap()">
+    <nav class="navbar">
+        <a href="/">
+            <img src="https://case.edu.pk/wp-content/uploads/2023/05/case-logo-lg-copy.png" alt="Case Logo Header"
+                aria-label="Case Logo Header">
+        </a>
+        <h3>CASE Transport System</h3>
+    </nav>
+
+    <div class="container">
+        <div class="map-container">
+            <div id="map"></div>
+            <div id="addressTableContainer">
+                <table id="addressTable">
+                    <thead>
+                        <tr>
+                            <th>Address</th>
+                            <th>Degree Level</th>
+                            <th>Department Name</th>
+                            <th>Gender</th>
+                            <th>Student Name</th>
+                            <th>Mobile No</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                       
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="filter-container">
+            <h3>Filter Options</h3>
+            <div class="filter-group">
+                <label><input type="checkbox" id="all" checked> All</label>
+            </div>
+
+            <div class="filter-group">
+                <label><input type="checkbox" id="male" checked> Male (M)</label>
+                <label><input type="checkbox" id="female" checked> Female (F)</label>
+            </div>
+
+            <div class="filter-group">
+                <label><input type="checkbox" id="ug" checked> UG</label>
+                <label><input type="checkbox" id="g" checked> G</label>
+                <label><input type="checkbox" id="pg" checked> PG</label>
+            </div>
+
+            <div class="filter-group">
+                <label><input type="checkbox" id="cs" checked> CS</label>
+                <label><input type="checkbox" id="ee" checked> EE</label>
+                <label><input type="checkbox" id="mg" checked> MG</label>
+                <label><input type="checkbox" id="sh" checked> SH</label>
+                <label><input type="checkbox" id="amhs" checked> AMHS</label>
+            </div>
+
+            <input type="file" id="fileUpload" accept=".xlsx" style="display: none;">
+            <label for="fileUpload" id="fileLabel" class="file-upload-label">Choose Excel File</label>
+            <div id="fileNameDisplay" class="file-name-display"></div>
+
+            <button class="action-button process-excel" id="processExcelBtn" onclick="processExcel()" disabled>Process Excel</button>
+            <button class="action-button refresh-filters" id="refreshFiltersBtn" onclick="refreshFilters()" disabled>Refresh</button>
+            <div id="countDisplay" class="count-display">Total Students: 0</div>
+        </div>
+    </div>
+
+    
+    <div id="loading-bar" class="loading-bar" style="display: none;">
+        <div class="loader"></div>
+        <p>Loading...</p>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
