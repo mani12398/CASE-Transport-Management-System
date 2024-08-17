@@ -23,21 +23,26 @@ document.addEventListener('DOMContentLoaded', function () {
         this.style.backgroundColor = '#007bff'; 
     });
 
-    
+   
     document.getElementById('all').addEventListener('change', async function () {
         showLoadingBar(); 
         const allChecked = this.checked;
+
+        
         document.querySelectorAll('input[type="checkbox"]:not(#all)').forEach(checkbox => {
             checkbox.checked = allChecked;
         });
+
         await updateMap(); 
         hideLoadingBar(); 
     });
 
+    
     document.querySelectorAll('input[type="checkbox"]:not(#all)').forEach(checkbox => {
         checkbox.addEventListener('change', async function () {
             showLoadingBar(); 
 
+           
             if (!this.checked) {
                 document.getElementById('all').checked = false;
             }
@@ -449,16 +454,31 @@ function getFilters() {
 }
 
 function applyFilters(degreeLevel, departmentName, gender, filters) {
-    var genderMatch = (gender === 'M' && filters.male) || (gender === 'F' && filters.female);
-    var degreeMatch = (degreeLevel === 'UG' && filters.ug) || (degreeLevel === 'G' && filters.g) || (degreeLevel === 'PG' && filters.pg);
-    var departmentMatch = (departmentName === 'CS' && filters.cs) ||
+    
+    var allFiltersUnchecked = !filters.male && !filters.female && 
+                              !filters.ug && !filters.g && !filters.pg && 
+                              !filters.cs && !filters.ee && !filters.mg && !filters.sh && !filters.amhs;
+
+    if (allFiltersUnchecked) {
+        return false; 
+    }
+
+   
+    var genderMatch = (!filters.male && !filters.female) || (gender === 'M' && filters.male) || (gender === 'F' && filters.female);
+    var degreeMatch = (!filters.ug && !filters.g && !filters.pg) || (degreeLevel === 'UG' && filters.ug) || (degreeLevel === 'G' && filters.g) || (degreeLevel === 'PG' && filters.pg);
+    var departmentMatch = (!filters.cs && !filters.ee && !filters.mg && !filters.sh && !filters.amhs) || 
+        (departmentName === 'CS' && filters.cs) ||
         (departmentName === 'EE' && filters.ee) ||
         (departmentName === 'MG' && filters.mg) ||
         (departmentName === 'SH' && filters.sh) ||
         (departmentName === 'AMHS' && filters.amhs);
 
+ 
     return genderMatch && degreeMatch && departmentMatch;
 }
+
+
+
 
 function geocodeAddress(address, callback) {
     var geocoder = new google.maps.Geocoder();
