@@ -214,6 +214,10 @@ body {
   text-align: left;
 }
 
+#addressTable td:nth-last-child(3) {
+  text-align: left;
+}
+
 .filter-container input[type="checkbox"] {
   accent-color: green;
 }
