@@ -16,52 +16,52 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     document.getElementById('fileLabel').addEventListener('mouseover', function () {
-        this.style.backgroundColor = '#0056b3'; 
+        this.style.backgroundColor = '#0056b3';
     });
 
     document.getElementById('fileLabel').addEventListener('mouseout', function () {
-        this.style.backgroundColor = '#007bff'; 
+        this.style.backgroundColor = '#007bff';
     });
 
-   
+
     document.getElementById('all').addEventListener('change', async function () {
-        showLoadingBar(); 
+        showLoadingBar();
         const allChecked = this.checked;
 
-        
+
         document.querySelectorAll('input[type="checkbox"]:not(#all)').forEach(checkbox => {
             checkbox.checked = allChecked;
         });
 
-        await updateMap(); 
-        hideLoadingBar(); 
+        await updateMap();
+        hideLoadingBar();
     });
 
-    
+
     document.querySelectorAll('input[type="checkbox"]:not(#all)').forEach(checkbox => {
         checkbox.addEventListener('change', async function () {
-            showLoadingBar(); 
+            showLoadingBar();
 
-           
+
             if (!this.checked) {
                 document.getElementById('all').checked = false;
             }
 
-            
+
             if (document.querySelectorAll('input[type="checkbox"]:not(#all):checked').length === document.querySelectorAll('input[type="checkbox"]:not(#all)').length) {
                 document.getElementById('all').checked = true;
             }
 
-            await updateMap(); 
-            hideLoadingBar(); 
+            await updateMap();
+            hideLoadingBar();
         });
     });
 });
 var map;
 var currentLocationMarker;
-var markers = [];  
-var addresses = []; 
-var markerCluster; 
+var markers = [];
+var addresses = [];
+var markerCluster;
 var darkModeStyle = [
     {
         "elementType": "geometry",
@@ -273,7 +273,7 @@ function handleLocationError(browserHasGeolocation, pos) {
 async function processExcel() {
     showLoadingBar();
     console.log('Processing Excel file...');
-    
+
     var fileUpload = document.getElementById('fileUpload');
     var reader = new FileReader();
 
@@ -288,7 +288,7 @@ async function processExcel() {
             currentLocationMarker.setMap(null);
         }
 
-        await updateMap(); 
+        await updateMap();
         console.log('Map updated, hiding loading bar...');
         hideLoadingBar();
     };
@@ -337,7 +337,7 @@ function handleLocationError(browserHasGeolocation, pos) {
 async function processExcel() {
     showLoadingBar();
     console.log('Processing Excel file...');
-    
+
     var fileUpload = document.getElementById('fileUpload');
     var reader = new FileReader();
 
@@ -352,7 +352,7 @@ async function processExcel() {
             currentLocationMarker.setMap(null);
         }
 
-        await updateMap(); 
+        await updateMap();
         console.log('Map updated, hiding loading bar...');
         hideLoadingBar();
     };
@@ -378,34 +378,31 @@ function getFilters() {
 }
 
 function applyFilters(degreeLevel, departmentName, gender, filters) {
-    
-    var allFiltersUnchecked = !filters.male && !filters.female && 
-                              !filters.ug && !filters.g && !filters.pg && 
-                              !filters.cs && !filters.ee && !filters.mg && !filters.sh && !filters.amhs;
+
+    var allFiltersUnchecked = !filters.male && !filters.female &&
+        !filters.ug && !filters.g && !filters.pg &&
+        !filters.cs && !filters.ee && !filters.mg && !filters.sh && !filters.amhs;
 
     if (allFiltersUnchecked) {
-        return false; 
+        return false;
     }
 
-   
+
     var genderMatch = (!filters.male && !filters.female) || (gender === 'M' && filters.male) || (gender === 'F' && filters.female);
     var degreeMatch = (!filters.ug && !filters.g && !filters.pg) || (degreeLevel === 'UG' && filters.ug) || (degreeLevel === 'G' && filters.g) || (degreeLevel === 'PG' && filters.pg);
-    var departmentMatch = (!filters.cs && !filters.ee && !filters.mg && !filters.sh && !filters.amhs) || 
+    var departmentMatch = (!filters.cs && !filters.ee && !filters.mg && !filters.sh && !filters.amhs) ||
         (departmentName === 'CS' && filters.cs) ||
         (departmentName === 'EE' && filters.ee) ||
         (departmentName === 'MG' && filters.mg) ||
         (departmentName === 'SH' && filters.sh) ||
         (departmentName === 'AMHS' && filters.amhs);
 
- 
+
     return genderMatch && degreeMatch && departmentMatch;
 }
 
-
-
-
-var locationCounts = {}; 
-function geocodeAddress(address, degreeLevel, departmentName, gender, studentName, mobileNo, callback) {
+var locationCounts = {};
+function geocodeAddress(address, degreeLevel, departmentName, gender, studentName, mobileNo, rollNo, callback) {
     var geocoder = new google.maps.Geocoder();
 
     geocoder.geocode({ 'address': address }, function (results, status) {
@@ -416,33 +413,76 @@ function geocodeAddress(address, degreeLevel, departmentName, gender, studentNam
 
             var locationKey = `${lat},${lng}`;
 
-            
+
             if (locationCounts[locationKey]) {
-                locationCounts[locationKey] += 1; 
+                locationCounts[locationKey] += 1;
             } else {
-                locationCounts[locationKey] = 1; 
+                locationCounts[locationKey] = 1;
             }
 
-            
+
             var offset = 0.0001 * locationCounts[locationKey];
-            lat += offset; 
-            lng += offset; 
+            lat += offset;
+            lng += offset;
 
             var contentString = `
-                <div style="font-size: 13px; max-width: 220px; padding: 5px; background-color: rgba(255, 255, 255, 0.9); border-radius: 8px; box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);">
-                    <p style="margin: 5px 0; font-weight: bold; font-size: 14px;">Name: ${studentName}</p>
-                    <p style="margin: 5px 0;"><strong>Mobile:</strong> ${mobileNo}</p>
-                    <p style="margin: 5px 0;"><strong>Address:</strong> ${formattedAddress}</p>
-                    <p style="margin: 5px 0;"><strong>Degree:</strong> ${degreeLevel}</p>
-                    <p style="margin: 5px 0;"><strong>Department:</strong> ${departmentName}</p>
-                    <p style="margin: 5px 0;"><strong>Gender:</strong> ${gender}</p>
+                <div style="
+                    font-size: 13px;
+                    max-width: 240px;
+                    padding: 10px;
+                    background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(240, 240, 240, 0.9) 100%);
+                    border-radius: 10px;
+                    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+                    font-family: 'Arial', sans-serif;
+                    color: #333;
+                ">
+                    <p style="
+                        margin: 8px 0;
+                        font-weight: bold;
+                        font-size: 16px;
+                        color: #2c3e50;
+                        text-align: center;
+                        border-bottom: 1px solid #ddd;
+                        padding-bottom: 8px;
+                    ">Name: ${studentName}</p>
+                    <p style="
+                        margin: 8px 0;
+                        font-size: 14px;
+                        color: #555;
+                    "><strong>Mobile:</strong> ${mobileNo}</p>
+                    <p style="
+                        margin: 8px 0;
+                        font-size: 14px;
+                        color: #555;
+                    "><strong>Roll No:</strong> ${rollNo}</p>
+                    <p style="
+                        margin: 8px 0;
+                        font-size: 14px;
+                        color: #555;
+                    "><strong>Address:</strong> ${formattedAddress}</p>
+                    <p style="
+                        margin: 8px 0;
+                        font-size: 14px;
+                        color: #555;
+                    "><strong>Degree:</strong> ${degreeLevel}</p>
+                    <p style="
+                        margin: 8px 0;
+                        font-size: 14px;
+                        color: #555;
+                    "><strong>Department:</strong> ${departmentName}</p>
+                    <p style="
+                        margin: 8px 0;
+                        font-size: 14px;
+                        color: #555;
+                    "><strong>Gender:</strong> ${gender}</p>
                 </div>
             `;
+
 
             callback(lat, lng, formattedAddress, contentString);
         } else {
             console.error('Geocode was not successful for the following reason:', status);
-            callback(null, null, address, null); 
+            callback(null, null, address, null);
         }
     });
 }
@@ -450,25 +490,26 @@ function geocodeAddress(address, degreeLevel, departmentName, gender, studentNam
 
 function updateMap() {
     return new Promise((resolve) => {
-        clearMarkers(); 
+        clearMarkers();
         var filters = getFilters();
         var count = 0;
         var validMarkers = [];
         var tableBody = document.querySelector('#addressTable tbody');
-        tableBody.innerHTML = ''; 
+        tableBody.innerHTML = '';
 
         let geocodePromises = [];
-        let activeInfoWindow = null; 
+        let activeInfoWindow = null;
 
         addresses.forEach((row, index) => {
-            if (index === 0) return; 
+            if (index === 0) return;
             var address = row[0];
             var degreeLevel = row[1];
             var departmentName = row[2];
             var gender = row[3];
-            var studentName = row[4]; 
+            var studentName = row[4];
             var mobileNo = row[5];
-             
+            var rollNo = row[6];
+
             mobileNo = mobileNo.toString().padStart(11, '0');
             mobileNo = mobileNo.replace(/^(\d{4})(\d{7})$/, '$1-$2');
 
@@ -477,7 +518,7 @@ function updateMap() {
 
                 geocodePromises.push(
                     new Promise((resolveGeocode) => {
-                        geocodeAddress(address, degreeLevel, departmentName, gender, studentName, mobileNo, function (lat, lng, formattedAddress, contentString) {
+                        geocodeAddress(address, degreeLevel, departmentName, gender, studentName, mobileNo, rollNo, function (lat, lng, formattedAddress, contentString) {
                             var tableRow = document.createElement('tr');
                             tableRow.innerHTML = `
                                 <td>${formattedAddress}</td>
@@ -486,6 +527,7 @@ function updateMap() {
                                 <td>${gender}</td>
                                 <td>${studentName}</td>
                                 <td>${mobileNo}</td>
+                                <td>${rollNo}</td>
                             `;
                             tableBody.appendChild(tableRow);
 
@@ -494,7 +536,7 @@ function updateMap() {
                                     position: { lat: lat, lng: lng },
                                     map: map
                                 });
-                                markers.push(marker); 
+                                markers.push(marker);
                                 validMarkers.push(marker);
 
                                 var infoWindow = new google.maps.InfoWindow({
@@ -503,10 +545,10 @@ function updateMap() {
 
                                 marker.addListener('click', function () {
                                     if (activeInfoWindow) {
-                                        activeInfoWindow.close(); 
+                                        activeInfoWindow.close();
                                     }
                                     infoWindow.open(map, marker);
-                                    activeInfoWindow = infoWindow; 
+                                    activeInfoWindow = infoWindow;
                                 });
                             }
 
@@ -514,7 +556,7 @@ function updateMap() {
                         });
                     }).catch((error) => {
                         console.error('Error in geocoding:', error);
-                        resolveGeocode(); 
+                        resolveGeocode();
                     })
                 );
             }
@@ -528,10 +570,10 @@ function updateMap() {
             });
 
             console.log('All geocoding promises resolved.');
-            resolve(); 
+            resolve();
         }).catch((error) => {
             console.error('Error in processing geocoding promises:', error);
-            resolve(); 
+            resolve();
         });
     });
 }
@@ -541,26 +583,26 @@ function addMarker(lat, lng) {
     var location = { lat: lat, lng: lng };
     var marker = new google.maps.Marker({
         position: location,
-        map: map  
+        map: map
     });
 
-    markers.push(marker);  
+    markers.push(marker);
 
-    return marker; 
+    return marker;
 }
 
 function clearMarkers() {
     if (markerCluster) {
-        markerCluster.clearMarkers(); 
+        markerCluster.clearMarkers();
     }
-    markers.forEach(marker => marker.setMap(null)); 
-    markers = [];  
+    markers.forEach(marker => marker.setMap(null));
+    markers = [];
 }
 
 async function refreshFilters() {
     showLoadingBar();
     console.log('Refreshing filters...');
-    
+
     document.getElementById('all').checked = true;
     document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
         checkbox.checked = true;
@@ -569,7 +611,7 @@ async function refreshFilters() {
     var tableBody = document.querySelector('#addressTable tbody');
     tableBody.innerHTML = '';
 
-    await updateMap(); 
+    await updateMap();
     console.log('Filters refreshed, hiding loading bar...');
     hideLoadingBar();
 }

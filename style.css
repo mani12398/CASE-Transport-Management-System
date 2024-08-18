@@ -1,441 +1,433 @@
 * {
-    user-select: none;
-    -webkit-user-drag: none;
-    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-    box-sizing: border-box; 
+  user-select: none;
+  -webkit-user-drag: none;
+  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+  box-sizing: border-box;
 }
 
 body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #f4f4f4;
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f4f4f4;
 }
 
 .navbar {
-    background-color: white;
-    color: #333;
-    padding: 10px 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center; 
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    flex-wrap: wrap; 
+  background-color: white;
+  color: #333;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  flex-wrap: wrap;
 }
 
 .navbar img {
-    height: 50px;
-    margin-right: 5px;
+  height: 50px;
+  margin-right: 5px;
 }
 
 .navbar h3 {
-    margin: 0;
-    font-size: 20px;
+  margin: 0;
+  font-size: 20px;
 }
 
-
 .container {
-    display: flex;
-    margin: 20px;
-    align-items: flex-start;
-    flex-wrap: wrap; 
+  display: flex;
+  margin: 20px;
+  align-items: flex-start;
+  flex-wrap: nowrap;
 }
 
 .map-container {
-    flex: 3;
-    padding-right: 20px;
-    width: 100%;
+  flex: 3;
+  padding-right: 20px;
+  width: 100%;
+  overflow-x: auto;
 }
 
 .filter-container {
-    background-color: white;
-    padding: 20px;
-    border-radius: 5px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    max-width: 300px;
-    flex: 1;
-    margin-right: 20px;
-    margin-bottom: 20px; 
-    width: 100%; 
+  background-color: white;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  max-width: 300px;
+  flex-shrink: 0;
+  margin-left: 20px;
+  margin-bottom: 0;
+  width: 100%;
 }
 
 .filter-container h3 {
-    margin-top: 0;
-    text-align: center;
+  margin-top: 0;
+  text-align: center;
 }
 
 .filter-container .filter-group {
-    display: flex;
-    justify-content: flex-start;
-    margin-bottom: 10px;
+  display: flex;
+  justify-content: flex-start;
+  margin-bottom: 10px;
 }
 
 .filter-container .filter-group label {
-    margin-right: 10px;
+  margin-right: 10px;
 }
-
 
 .filter-container button,
 .filter-container input[type="file"]::before {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 10px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    text-align: center;
-    font-weight: bold;
-    font-size: 16px;
-    display: block;
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  text-align: center;
+  font-weight: bold;
+  font-size: 16px;
+  display: block;
 }
 
-
 .process-excel {
-    background-color: #28a745;
-    color: white;
+  background-color: #28a745;
+  color: white;
 }
 
 .process-excel:disabled {
-    background-color: #6c757d;
-    cursor: not-allowed;
+  background-color: #6c757d;
+  cursor: not-allowed;
 }
 
 .process-excel:hover:enabled {
-    background-color: #218838;
+  background-color: #218838;
 }
 
 .refresh-filters {
-    background-color: #ffc107;
-    color: #333;
+  background-color: #ffc107;
+  color: #333;
 }
 
 .refresh-filters:disabled {
-    background-color: #e0a800;
-    cursor: not-allowed;
+  background-color: #e0a800;
+  cursor: not-allowed;
 }
 
 .refresh-filters:hover:enabled {
-    background-color: #e0a800;
+  background-color: #e0a800;
 }
 
-
 .file-upload-label {
-    display: block;
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 10px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    text-align: center;
-    font-weight: bold;
-    font-size: 16px;
-    box-sizing: border-box;
+  display: block;
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  text-align: center;
+  font-weight: bold;
+  font-size: 16px;
+  box-sizing: border-box;
 }
 
 .file-upload-label:hover {
-    background-color: #0056b3;
+  background-color: #0056b3;
 }
 
 .file-name-display {
-    text-align: center;
-    color: black;
-    margin-bottom: 10px;
-    font-size: 14px;
+  text-align: center;
+  color: black;
+  margin-bottom: 10px;
+  font-size: 14px;
 }
 
 #map {
-    height: 1000px; 
-    width: 100%;
+  height: 1000px;
+  width: 100%;
 }
 
 .count-display {
-    margin-top: 20px;
-    font-weight: bold;
+  margin-top: 20px;
+  font-weight: bold;
 }
 
-
 #addressDisplay {
-    margin-top: 20px;
-    font-weight: bold;
-    padding: 10px;
-    background-color: white;
-    border-radius: 5px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-top: 20px;
+  font-weight: bold;
+  padding: 10px;
+  background-color: white;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .address-item {
-    margin-bottom: 5px;
+  margin-bottom: 5px;
 }
 
 .count-display {
-    margin-top: 10px;
-    font-weight: bold;
+  margin-top: 10px;
+  font-weight: bold;
 }
-
 
 #addressTableContainer {
-    margin-top: 20px;
-    background-color: white;
-    border-radius: 5px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    width: 100%; 
-    overflow-x: auto; 
+  margin-top: 20px;
+  background-color: white;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  overflow-x: auto;
 }
-
 
 #addressTable {
-    width: 100%; 
-    border-collapse: collapse;
-    text-align: left;
-    margin-bottom: 20px;
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  margin-bottom: 20px;
 }
 
-#addressTable th, #addressTable td {
-    padding: 10px;
-    border: 1px solid #ddd;
-    text-align: center; 
-    white-space: nowrap; 
+#addressTable th,
+#addressTable td {
+  padding: 10px;
+  border: 1px solid #ddd;
+  text-align: center;
+  white-space: nowrap;
 }
-
 
 #addressTable th {
-    background-color: #eaeaea; 
-    color: #333; 
-    font-weight: bold;
-    text-align: center; 
+  background-color: #eaeaea;
+  color: #333;
+  font-weight: bold;
+  text-align: center;
 }
-
 
 #addressTable tr:nth-child(even) {
-    background-color: #f9f9f9;
+  background-color: #f9f9f9;
 }
-
 
 #addressTable tr:hover {
-    background-color: #e0e0e0; 
+  background-color: #e0e0e0;
 }
-
 
 #addressTable td:first-child {
-    text-align: left;
+  text-align: left;
 }
-
 
 .filter-container input[type="checkbox"] {
-    accent-color: green;
+  accent-color: green;
 }
 
-
 .loading-bar {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    text-align: center;
-    z-index: 1000;
-    background: rgba(255, 255, 255, 0.8);
-    padding: 20px;
-    border-radius: 5px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  z-index: 1000;
+  background: rgba(255, 255, 255, 0.8);
+  padding: 20px;
+  border-radius: 5px;
 }
 
 .loader {
-    border: 8px solid #f3f3f3;
-    border-radius: 50%;
-    border-top: 8px solid #3498db;
-    width: 50px;
-    height: 50px;
-    animation: spin 1s linear infinite;
-    margin: 0 auto 10px;
+  border: 8px solid #f3f3f3;
+  border-radius: 50%;
+  border-top: 8px solid #3498db;
+  width: 50px;
+  height: 50px;
+  animation: spin 1s linear infinite;
+  margin: 0 auto 10px;
 }
 
 @keyframes spin {
-    0% {
-        transform: rotate(0deg);
-    }
-    100% {
-        transform: rotate(360deg);
-    }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 .loading-bar p {
-    margin: 0;
-    font-size: 16px;
-    color: #333;
+  margin: 0;
+  font-size: 16px;
+  color: #333;
 }
 
 @media (max-width: 1024px) {
-    .navbar h3 {
-        font-size: 18px; 
-    }
+  .navbar h3 {
+    font-size: 18px;
+  }
 
-    .container {
-        flex-direction: column; 
-    }
+  .container {
+    flex-direction: column;
+  }
 
-    .map-container {
-        order: 2; 
-        padding-right: 10px; 
-    }
+  .map-container {
+    order: 2;
+    padding-right: 10px;
+  }
 
-    .filter-container {
-        order: 1; 
-        max-width: none; 
-        margin-bottom: 20px; 
-    }
+  .filter-container {
+    order: 1;
+    max-width: none;
+    margin-bottom: 20px;
+  }
 
-    #map {
-        height: 300px; 
-    }
+  #map {
+    height: 300px;
+  }
 
-    .navbar h3 {
-        font-size: 18px;
-    }
+  .navbar h3 {
+    font-size: 18px;
+  }
 
-    #addressTable th, #addressTable td {
-        padding: 8px; 
-    }
-    
-    .filter-container .filter-group {
-        display: flex;
-        justify-content: flex-start;
-        margin-bottom: 10px;
-    }
+  #addressTable th,
+  #addressTable td {
+    padding: 8px;
+  }
+
+  .filter-container .filter-group {
+    display: flex;
+    justify-content: flex-start;
+    margin-bottom: 10px;
+  }
 }
 
 @media (max-width: 768px) {
-    .navbar {
-        justify-content: center; 
-    }
+  .navbar {
+    justify-content: center;
+  }
 
-    .map-container {
-        order: 2; 
-    }
+  .map-container {
+    order: 2;
+  }
 
-    .filter-container {
-        order: 1;
-        max-width: none;
-        margin-bottom: 20px;
-    }
+  .filter-container {
+    order: 1;
+    max-width: none;
+    margin-bottom: 20px;
+  }
 
-    #map {
-        height: 300px;
-    }
+  #map {
+    height: 300px;
+  }
 
-    .navbar h3 {
-        font-size: 18px;
-    }
+  .navbar h3 {
+    font-size: 18px;
+  }
 
-    #addressTable th, #addressTable td {
-        padding: 8px;
-    }
-    
-    .filter-container .filter-group {
-        display: flex;
-        justify-content: flex-start;
-        margin-bottom: 10px;
-    }
+  #addressTable th,
+  #addressTable td {
+    padding: 8px;
+  }
+
+  .filter-container .filter-group {
+    display: flex;
+    justify-content: flex-start;
+    margin-bottom: 10px;
+  }
 }
 
 @media (max-width: 600px) {
-    .navbar img {
-        height: 40px;
-    }
+  .navbar img {
+    height: 40px;
+  }
 
-    .navbar h3 {
-        font-size: 16px;
-    }
+  .navbar h3 {
+    font-size: 16px;
+  }
 
-    .container {
-        flex-direction: column;
-        margin: 10px;
-    }
+  .container {
+    flex-direction: column;
+    margin: 10px;
+  }
 
-    .map-container {
-        order: 2;
-    }
+  .map-container {
+    order: 2;
+  }
 
-    .filter-container {
-        order: 1;
-        max-width: none;
-        margin-bottom: 20px;
-        padding: 15px;
-    }
+  .filter-container {
+    order: 1;
+    max-width: none;
+    margin-bottom: 20px;
+    padding: 15px;
+  }
 
-    #map {
-        height: 250px;
-    }
+  #map {
+    height: 250px;
+  }
 
-    .filter-container button,
-    .file-upload-label {
-        font-size: 14px;
-        padding: 8px;
-    }
+  .filter-container button,
+  .file-upload-label {
+    font-size: 14px;
+    padding: 8px;
+  }
 }
 
 @media (max-width: 480px) {
-    .navbar h3 {
-        font-size: 16px;
-    }
+  .navbar h3 {
+    font-size: 16px;
+  }
 
-    .container {
-        flex-direction: column;
-    }
+  .container {
+    flex-direction: column;
+  }
 
-    .map-container {
-        order: 2;
-    }
+  .map-container {
+    order: 2;
+  }
 
-    .filter-container {
-        order: 1;
-        max-width: none;
-        margin-bottom: 20px;
-    }
+  .filter-container {
+    order: 1;
+    max-width: none;
+    margin-bottom: 20px;
+  }
 
-    #map {
-        height: 250px;
-    }
+  #map {
+    height: 250px;
+  }
 
-    .filter-container button,
-    .file-upload-label {
-        font-size: 14px;
-    }
+  .filter-container button,
+  .file-upload-label {
+    font-size: 14px;
+  }
 }
 
 @media (max-width: 360px) {
-    .navbar h3 {
-        font-size: 14px;
-    }
+  .navbar h3 {
+    font-size: 14px;
+  }
 
-    .container {
-        flex-direction: column;
-    }
+  .container {
+    flex-direction: column;
+  }
 
-    .map-container {
-        order: 2;
-    }
+  .map-container {
+    order: 2;
+  }
 
-    .filter-container {
-        order: 1;
-        max-width: none;
-        margin-bottom: 20px;
-        padding: 10px;
-    }
+  .filter-container {
+    order: 1;
+    max-width: none;
+    margin-bottom: 20px;
+    padding: 10px;
+  }
 
-    #map {
-        height: 200px;
-    }
+  #map {
+    height: 200px;
+  }
 
-    #addressTable th, #addressTable td {
-        padding: 6px;
-        font-size: 12px;
-    }
+  #addressTable th,
+  #addressTable td {
+    padding: 6px;
+    font-size: 12px;
+  }
 
-    .filter-container button,
-    .file-upload-label {
-        font-size: 12px;
-        padding: 6px;
-    }
+  .filter-container button,
+  .file-upload-label {
+    font-size: 12px;
+    padding: 6px;
+  }
 }
