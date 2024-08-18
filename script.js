@@ -487,21 +487,20 @@ function geocodeAddress(address, degreeLevel, departmentName, gender, studentNam
     });
 }
 
-
 function updateMap() {
     return new Promise((resolve) => {
         clearMarkers();
         var filters = getFilters();
-        var count = 0;
         var validMarkers = [];
         var tableBody = document.querySelector('#addressTable tbody');
         tableBody.innerHTML = '';
 
+        let serialNumber = 1; 
         let geocodePromises = [];
         let activeInfoWindow = null;
 
         addresses.forEach((row, index) => {
-            if (index === 0) return;
+            if (index === 0) return; 
             var address = row[0];
             var degreeLevel = row[1];
             var departmentName = row[2];
@@ -514,13 +513,13 @@ function updateMap() {
             mobileNo = mobileNo.replace(/^(\d{4})(\d{7})$/, '$1-$2');
 
             if (applyFilters(degreeLevel, departmentName, gender, filters)) {
-                count++;
 
                 geocodePromises.push(
                     new Promise((resolveGeocode) => {
                         geocodeAddress(address, degreeLevel, departmentName, gender, studentName, mobileNo, rollNo, function (lat, lng, formattedAddress, contentString) {
                             var tableRow = document.createElement('tr');
                             tableRow.innerHTML = `
+                                <td>${serialNumber++}</td>
                                 <td>${formattedAddress}</td>
                                 <td>${degreeLevel}</td>
                                 <td>${departmentName}</td>
@@ -563,7 +562,7 @@ function updateMap() {
         });
 
         Promise.all(geocodePromises).then(() => {
-            document.getElementById('countDisplay').innerText = `Total Students: ${count}`;
+            document.getElementById('countDisplay').innerText = `Total Students: ${serialNumber - 1}`;
 
             markerCluster = new MarkerClusterer(map, validMarkers, {
                 imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'
@@ -577,7 +576,6 @@ function updateMap() {
         });
     });
 }
-
 
 function addMarker(lat, lng) {
     var location = { lat: lat, lng: lng };

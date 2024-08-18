@@ -210,6 +210,13 @@ body {
 }
 
 #addressTable td:first-child {
+  text-align: center;
+}
+
+#addressTable td:nth-child(2),
+#addressTable td:nth-child(3),
+#addressTable td:nth-child(4),
+#addressTable td:nth-child(6) {
   text-align: left;
 }
 
