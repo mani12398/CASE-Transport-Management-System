@@ -360,83 +360,7 @@ async function processExcel() {
     reader.readAsArrayBuffer(fileUpload.files[0]);
 }
 
-function updateMap() {
-    return new Promise((resolve) => {
-        clearMarkers(); 
-        var filters = getFilters();
-        var count = 0;
-        var validMarkers = [];
-        var tableBody = document.querySelector('#addressTable tbody');
-        tableBody.innerHTML = ''; 
 
-        let geocodePromises = [];
-
-        addresses.forEach((row, index) => {
-            if (index === 0) return; 
-            var address = row[0];
-            var degreeLevel = row[1];
-            var departmentName = row[2];
-            var gender = row[3];
-            var studentName = row[4]; 
-            var mobileNo = row[5];
-             
-            mobileNo = mobileNo.toString().padStart(11, '0');
-            mobileNo = mobileNo.replace(/^(\d{4})(\d{7})$/, '$1-$2');
-
-            if (applyFilters(degreeLevel, departmentName, gender, filters)) {
-                count++;
-                console.log('Geocoding address:', address);
-
-                geocodePromises.push(
-                    new Promise((resolveGeocode) => {
-                        geocodeAddress(address, function (lat, lng, formattedAddress) {
-                            console.log('Geocoded address:', formattedAddress, 'Lat:', lat, 'Lng:', lng);
-
-                            var tableRow = document.createElement('tr');
-                            tableRow.innerHTML = `
-                                <td>${formattedAddress}</td>
-                                <td>${degreeLevel}</td>
-                                <td>${departmentName}</td>
-                                <td>${gender}</td>
-                                <td>${studentName}</td>
-                                <td>${mobileNo}</td>
-                            `;
-                            tableBody.appendChild(tableRow);
-
-                            if (lat !== null && lng !== null) {
-                                var marker = new google.maps.Marker({
-                                    position: { lat: lat, lng: lng },
-                                    map: map
-                                });
-                                markers.push(marker); 
-                                validMarkers.push(marker);
-                            }
-
-                            resolveGeocode();
-                        });
-                    }).catch((error) => {
-                        console.error('Error in geocoding:', error);
-                        resolveGeocode(); 
-                    })
-                );
-            }
-        });
-
-        Promise.all(geocodePromises).then(() => {
-            document.getElementById('countDisplay').innerText = `Total Students: ${count}`;
-
-            markerCluster = new MarkerClusterer(map, validMarkers, {
-                imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'
-            });
-
-            console.log('All geocoding promises resolved.');
-            resolve(); 
-        }).catch((error) => {
-            console.error('Error in processing geocoding promises:', error);
-            resolve(); 
-        });
-    });
-}
 
 function getFilters() {
     return {
@@ -480,21 +404,138 @@ function applyFilters(degreeLevel, departmentName, gender, filters) {
 
 
 
-function geocodeAddress(address, callback) {
+var locationCounts = {}; 
+function geocodeAddress(address, degreeLevel, departmentName, gender, studentName, mobileNo, callback) {
     var geocoder = new google.maps.Geocoder();
 
     geocoder.geocode({ 'address': address }, function (results, status) {
         if (status === 'OK') {
             var lat = results[0].geometry.location.lat();
             var lng = results[0].geometry.location.lng();
-            var formattedAddress = results[0].formatted_address; 
-            callback(lat, lng, formattedAddress); 
+            var formattedAddress = results[0].formatted_address;
+
+            var locationKey = `${lat},${lng}`;
+
+            
+            if (locationCounts[locationKey]) {
+                locationCounts[locationKey] += 1; 
+            } else {
+                locationCounts[locationKey] = 1; 
+            }
+
+            
+            var offset = 0.0001 * locationCounts[locationKey];
+            lat += offset; 
+            lng += offset; 
+
+            var contentString = `
+                <div style="font-size: 13px; max-width: 220px; padding: 5px; background-color: rgba(255, 255, 255, 0.9); border-radius: 8px; box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);">
+                    <p style="margin: 5px 0; font-weight: bold; font-size: 14px;">Name: ${studentName}</p>
+                    <p style="margin: 5px 0;"><strong>Mobile:</strong> ${mobileNo}</p>
+                    <p style="margin: 5px 0;"><strong>Address:</strong> ${formattedAddress}</p>
+                    <p style="margin: 5px 0;"><strong>Degree:</strong> ${degreeLevel}</p>
+                    <p style="margin: 5px 0;"><strong>Department:</strong> ${departmentName}</p>
+                    <p style="margin: 5px 0;"><strong>Gender:</strong> ${gender}</p>
+                </div>
+            `;
+
+            callback(lat, lng, formattedAddress, contentString);
         } else {
             console.error('Geocode was not successful for the following reason:', status);
-            callback(null, null, address); 
+            callback(null, null, address, null); 
         }
     });
 }
+
+
+function updateMap() {
+    return new Promise((resolve) => {
+        clearMarkers(); 
+        var filters = getFilters();
+        var count = 0;
+        var validMarkers = [];
+        var tableBody = document.querySelector('#addressTable tbody');
+        tableBody.innerHTML = ''; 
+
+        let geocodePromises = [];
+        let activeInfoWindow = null; 
+
+        addresses.forEach((row, index) => {
+            if (index === 0) return; 
+            var address = row[0];
+            var degreeLevel = row[1];
+            var departmentName = row[2];
+            var gender = row[3];
+            var studentName = row[4]; 
+            var mobileNo = row[5];
+             
+            mobileNo = mobileNo.toString().padStart(11, '0');
+            mobileNo = mobileNo.replace(/^(\d{4})(\d{7})$/, '$1-$2');
+
+            if (applyFilters(degreeLevel, departmentName, gender, filters)) {
+                count++;
+
+                geocodePromises.push(
+                    new Promise((resolveGeocode) => {
+                        geocodeAddress(address, degreeLevel, departmentName, gender, studentName, mobileNo, function (lat, lng, formattedAddress, contentString) {
+                            var tableRow = document.createElement('tr');
+                            tableRow.innerHTML = `
+                                <td>${formattedAddress}</td>
+                                <td>${degreeLevel}</td>
+                                <td>${departmentName}</td>
+                                <td>${gender}</td>
+                                <td>${studentName}</td>
+                                <td>${mobileNo}</td>
+                            `;
+                            tableBody.appendChild(tableRow);
+
+                            if (lat !== null && lng !== null) {
+                                var marker = new google.maps.Marker({
+                                    position: { lat: lat, lng: lng },
+                                    map: map
+                                });
+                                markers.push(marker); 
+                                validMarkers.push(marker);
+
+                                var infoWindow = new google.maps.InfoWindow({
+                                    content: contentString
+                                });
+
+                                marker.addListener('click', function () {
+                                    if (activeInfoWindow) {
+                                        activeInfoWindow.close(); 
+                                    }
+                                    infoWindow.open(map, marker);
+                                    activeInfoWindow = infoWindow; 
+                                });
+                            }
+
+                            resolveGeocode();
+                        });
+                    }).catch((error) => {
+                        console.error('Error in geocoding:', error);
+                        resolveGeocode(); 
+                    })
+                );
+            }
+        });
+
+        Promise.all(geocodePromises).then(() => {
+            document.getElementById('countDisplay').innerText = `Total Students: ${count}`;
+
+            markerCluster = new MarkerClusterer(map, validMarkers, {
+                imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'
+            });
+
+            console.log('All geocoding promises resolved.');
+            resolve(); 
+        }).catch((error) => {
+            console.error('Error in processing geocoding promises:', error);
+            resolve(); 
+        });
+    });
+}
+
 
 function addMarker(lat, lng) {
     var location = { lat: lat, lng: lng };
