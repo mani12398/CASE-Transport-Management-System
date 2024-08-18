@@ -214,6 +214,8 @@ body {
   text-align: left;
 }
 
+#addressTable td:nth-child(2),
+#addressTable td:nth-child(3),
 #addressTable td:nth-last-child(3) {
   text-align: left;
 }
