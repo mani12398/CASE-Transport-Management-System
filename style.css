@@ -306,10 +306,12 @@ body {
 
   .filter-container {
     order: 1;
-    max-width: none;
+    max-width: 100%;
     margin-bottom: 20px;
+    margin: 0 auto; 
+    text-align: center; 
+    padding: 20px;
   }
-
   #map {
     height: 300px;
   }
@@ -325,8 +327,14 @@ body {
 
   .filter-container .filter-group {
     display: flex;
-    justify-content: flex-start;
+    justify-content: center; 
     margin-bottom: 10px;
+    flex-wrap: wrap;
+  }
+
+  .filter-container .filter-group label {
+    margin-right: 10px;
+    margin-bottom: 10px; 
   }
 }
 
@@ -410,9 +418,11 @@ body {
 
   .filter-container {
     order: 1;
-    max-width: none;
+    max-width: 100%; 
     margin-bottom: 20px;
-    padding: 10px;
+    margin: 0 auto; 
+    text-align: center; 
+    padding: 15px;
   }
 
   #map {
