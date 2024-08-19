@@ -231,7 +231,7 @@ var darkModeStyle = [
         ]
     }
 ];
-
+var map = null;
 function initMap() {
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(function (position) {
@@ -244,7 +244,10 @@ function initMap() {
                 center: userLocation,
                 styles: darkModeStyle
             });
-
+            console.log(map);  
+            if (!(map instanceof google.maps.Map)) {
+                console.error("The map is not a valid Google Maps instance.");
+            }
             currentLocationMarker = new google.maps.Marker({
                 position: userLocation,
                 map: map,
@@ -258,7 +261,7 @@ function initMap() {
         handleLocationError(false, map.getCenter());
     }
 }
-
+document.addEventListener('DOMContentLoaded', initMap);
 function handleLocationError(browserHasGeolocation, pos) {
     var infoWindow = new google.maps.InfoWindow({
         map: map,
@@ -477,9 +480,30 @@ function geocodeAddress(address, degreeLevel, departmentName, gender, studentNam
                     "><strong>Gender:</strong> ${gender}</p>
                 </div>
             `;
+            if (map instanceof google.maps.Map) {
+                var marker = new google.maps.Marker({
+                    position: { lat: lat, lng: lng },
+                    map: map
+                });
 
+                markers.push(marker);
 
-            callback(lat, lng, formattedAddress, contentString);
+                var infoWindow = new google.maps.InfoWindow({
+                    content: contentString
+                });
+
+                marker.addListener('click', function () {
+                    if (activeInfoWindow) {
+                        activeInfoWindow.close();
+                    }
+                    infoWindow.open(map, marker);
+                    activeInfoWindow = infoWindow;
+                });
+
+                callback(lat, lng, formattedAddress, contentString);
+            } else {
+                console.error("Invalid map instance, marker not set.");
+            }
         } else {
             console.error('Geocode was not successful for the following reason:', status);
             callback(null, null, address, null);
@@ -564,10 +588,10 @@ function updateMap() {
         Promise.all(geocodePromises).then(() => {
             document.getElementById('countDisplay').innerText = `Total Students: ${serialNumber - 1}`;
 
-            markerCluster = new MarkerClusterer(map, validMarkers, {
-                imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'
+            markerCluster = new MarkerClusterer({
+                markers: validMarkers, 
+                map: map 
             });
-
             console.log('All geocoding promises resolved.');
             resolve();
         }).catch((error) => {
@@ -590,13 +614,14 @@ function addMarker(lat, lng) {
 }
 
 function clearMarkers() {
-    if (markerCluster) {
+    if (markerCluster && map instanceof google.maps.Map) {
         markerCluster.clearMarkers();
+    } else {
+        console.error("Invalid map instance or markerCluster not initialized.");
     }
     markers.forEach(marker => marker.setMap(null));
     markers = [];
 }
-
 async function refreshFilters() {
     showLoadingBar();
     console.log('Refreshing filters...');
