@@ -532,7 +532,10 @@ function updateMap() {
             var studentName = row[4];
             var mobileNo = row[5];
             var rollNo = row[6];
-
+            if (!address || !degreeLevel || !departmentName || !gender || !studentName || !mobileNo || !rollNo) {
+                console.warn(`Skipping row ${index + 1} due to missing data:`, row);
+                return;
+            }
             mobileNo = mobileNo.toString().padStart(11, '0');
             mobileNo = mobileNo.replace(/^(\d{4})(\d{7})$/, '$1-$2');
 
