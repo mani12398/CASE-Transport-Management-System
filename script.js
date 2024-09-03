@@ -56,6 +56,8 @@ document.addEventListener('DOMContentLoaded', function () {
             hideLoadingBar();
         });
     });
+
+    
 });
 var map;
 var currentLocationMarker;
@@ -244,7 +246,7 @@ function initMap() {
                 center: userLocation,
                 styles: darkModeStyle
             });
-            console.log(map);  
+            console.log(map);
             if (!(map instanceof google.maps.Map)) {
                 console.error("The map is not a valid Google Maps instance.");
             }
@@ -362,7 +364,6 @@ async function processExcel() {
 
     reader.readAsArrayBuffer(fileUpload.files[0]);
 }
-
 
 
 function getFilters() {
@@ -519,12 +520,12 @@ function updateMap() {
         var tableBody = document.querySelector('#addressTable tbody');
         tableBody.innerHTML = '';
 
-        let serialNumber = 1; 
+        let serialNumber = 1;
         let geocodePromises = [];
         let activeInfoWindow = null;
 
         addresses.forEach((row, index) => {
-            if (index === 0) return; 
+            if (index === 0) return;
             var address = row[0];
             var degreeLevel = row[1];
             var departmentName = row[2];
@@ -592,8 +593,8 @@ function updateMap() {
             document.getElementById('countDisplay').innerText = `Total Students: ${serialNumber - 1}`;
 
             markerCluster = new MarkerClusterer({
-                markers: validMarkers, 
-                map: map 
+                markers: validMarkers,
+                map: map
             });
             console.log('All geocoding promises resolved.');
             resolve();
