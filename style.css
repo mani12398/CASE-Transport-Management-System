@@ -18,40 +18,35 @@ body {
   padding: 10px 20px;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center; /* Space between logo and title */
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   position: relative;
 }
 
 .navbar img {
-  height: 70px;
+  height: 70px; /* Logo size */
+  margin-right: 10px; /* Space between logo and title */
+}
+
+.navbar-title-container {
+  flex-grow: 1; /* Allow this container to take the remaining space */
+  display: flex;
+  justify-content: center; /* Center the title within this container */
 }
 
 .navbar-title {
   margin: 0;
-  font-size: 20px;
+  font-size: 28px; /* Make h3 bigger */
   display: flex;
   align-items: center;
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
   color: #143257;
   font-family: "Poppins", sans-serif;
 }
 
-.navbar h3 {
-  margin: 0;
-  font-size: 25px;
-  display: flex;
-  align-items: center;
-  font-family: "Poppins", sans-serif;
-}
-
 .navbar i {
-  margin-right: 5px;
-  color: #28a745; /* Adds some spacing between the icon and text */
+  margin-right: 5px; /* Space between icon and text */
+  color: #28a745; /* Icon color */
 }
-
 .container {
   display: flex;
   margin: 20px;
@@ -290,7 +285,7 @@ body {
     flex-direction: column;
     margin: 10px;
   }
-
+  
   .map-container {
     order: 2;
     width: 100%;
