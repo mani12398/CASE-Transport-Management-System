@@ -18,25 +18,25 @@ body {
   padding: 10px 20px;
   display: flex;
   align-items: center;
-  justify-content: center; /* Space between logo and title */
+  justify-content: center; 
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   position: relative;
 }
 
 .navbar img {
-  height: 70px; /* Logo size */
-  margin-right: 10px; /* Space between logo and title */
+  height: 70px; 
+  margin-right: 10px; 
 }
 
 .navbar-title-container {
-  flex-grow: 1; /* Allow this container to take the remaining space */
+  flex-grow: 1; 
   display: flex;
-  justify-content: center; /* Center the title within this container */
+  justify-content: center; 
 }
 
 .navbar-title {
   margin: 0;
-  font-size: 28px; /* Make h3 bigger */
+  font-size: 28px; 
   display: flex;
   align-items: center;
   color: #143257;
@@ -44,8 +44,8 @@ body {
 }
 
 .navbar i {
-  margin-right: 5px; /* Space between icon and text */
-  color: #28a745; /* Icon color */
+  margin-right: 5px; 
+  color: #28a745; 
 }
 .container {
   display: flex;
