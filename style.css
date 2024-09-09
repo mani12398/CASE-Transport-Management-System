@@ -1,12 +1,12 @@
 * {
   user-select: none;
   -webkit-user-drag: none;
-  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+  font-family: "Roboto", Arial, sans-serif;
   box-sizing: border-box;
 }
 
 body {
-  font-family: Arial, sans-serif;
+  font-family: "Roboto", Arial, sans-serif;
   margin: 0;
   padding: 0;
   background-color: #f4f4f4;
@@ -18,19 +18,38 @@ body {
   padding: 10px 20px;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  flex-wrap: wrap;
+  position: relative;
 }
 
 .navbar img {
-  height: 50px;
-  margin-right: 5px;
+  height: 70px;
+}
+
+.navbar-title {
+  margin: 0;
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  color: #143257;
+  font-family: "Poppins", sans-serif;
 }
 
 .navbar h3 {
   margin: 0;
-  font-size: 20px;
+  font-size: 25px;
+  display: flex;
+  align-items: center;
+  font-family: "Poppins", sans-serif;
+}
+
+.navbar i {
+  margin-right: 5px;
+  color: #28a745; /* Adds some spacing between the icon and text */
 }
 
 .container {
@@ -60,6 +79,8 @@ body {
 .filter-container h3 {
   margin-top: 0;
   text-align: center;
+  font-family: "Poppins", sans-serif;
+  color: #143257;
 }
 
 .filter-container .filter-group {
@@ -70,6 +91,7 @@ body {
 
 .filter-container .filter-group label {
   margin-right: 10px;
+  font-weight: bold;
 }
 
 .filter-container button,
@@ -150,6 +172,7 @@ body {
 .count-display {
   margin-top: 20px;
   font-weight: bold;
+  color: #143257;
 }
 
 #addressDisplay {
